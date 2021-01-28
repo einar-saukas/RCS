@@ -1,5 +1,5 @@
 ; -----------------------------------------------------------------------------
-; "Smart" integrated RCS+ZX0 decoder by Einar Saukas (124 bytes) - BACKWARDS
+; "Smart" integrated RCS+ZX0 decoder by Einar Saukas (113 bytes) - BACKWARDS
 ; -----------------------------------------------------------------------------
 ; Parameters:
 ;   HL: last source address (compressed data)
@@ -9,6 +9,7 @@
 dzx0_smartrcs_back:
         ld      bc, 1                   ; preserve default offset 1
         push    bc
+        dec     bc
         ld      a, $80
 dzx0rb_literals:
         call    dzx0rb_elias            ; obtain length
@@ -36,9 +37,11 @@ dzx0rb_copy_loop:
         add     a, a                    ; copy from literals or new offset?
         jr      nc, dzx0rb_literals
 dzx0rb_new_offset:
-        pop     bc                      ; discard last offset
-        call    dzx0rb_elias_carry      ; obtain offset MSB
-        ret     nz                      ; check end marker
+        inc     sp                      ; discard last offset
+        inc     sp
+        call    dzx0rb_elias            ; obtain offset MSB
+        dec     b
+        ret     z                       ; check end marker
         dec     c                       ; adjust for positive offset
         ld      b, c
         ld      c, (hl)                 ; obtain offset LSB
@@ -47,33 +50,25 @@ dzx0rb_new_offset:
         rr      c
         inc     bc
         push    bc                      ; preserve new offset
-        ld      bc, $8000               ; obtain length
-        call    dzx0rb_elias_backtrack
+        ld      bc, 1                   ; obtain length
+        call    c, dzx0rb_elias_backtrack
         inc     bc
         jr      dzx0rb_copy
 dzx0rb_elias:
-        scf                             ; Elias gamma coding
-dzx0rb_elias_carry:
-        ld      bc, 0
-dzx0rb_elias_size:
-        rr      b
-        rr      c
-        call    dzx0rb_next_bit
-dzx0rb_elias_backtrack:
-        jr      nc, dzx0rb_elias_size
-dzx0rb_elias_value:
-        call    nc, dzx0rb_next_bit
-        rl      c
-        rl      b
-        jr      nc, dzx0rb_elias_value
-        ret
-dzx0rb_next_bit:
-        add     a, a                    ; check next bit
-        ret     nz                      ; no more bits left?
+        inc     c                       ; inverted interlaced Elias gamma coding
+dzx0rb_elias_loop:
+        add     a, a
+        jr      nz, dzx0rb_elias_skip
         ld      a, (hl)                 ; load another group of 8 bits
         dec     hl
         rla
-        ret
+dzx0rb_elias_skip:
+        ret     nc
+dzx0rb_elias_backtrack:
+        add     a, a
+        rl      c
+        rl      b
+        jr      dzx0rb_elias_loop
 dzx0rb_copy_byte:
         push    de                      ; preserve destination
         call    dzx0rb_convert          ; convert destination
