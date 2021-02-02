@@ -9,7 +9,7 @@
 dzx0_smartrcs_back:
         ld      bc, 1                   ; preserve default offset 1
         push    bc
-        dec     bc
+        dec     c
         ld      a, $80
 dzx0rb_literals:
         call    dzx0rb_elias            ; obtain length
