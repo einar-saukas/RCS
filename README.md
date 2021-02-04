@@ -23,7 +23,8 @@ rcs Cobra.scr
 ```
 
 This will generate a **RCS** encoded file called "Cobra.scr.rcs", that you must now
-compress using your favorite compressor (such as [ZX0](https://github.com/einar-saukas/ZX0)
+compress using your favorite compressor (such as [ZX0](https://github.com/einar-saukas/ZX0),
+[ZX1](https://github.com/einar-saukas/ZX1), 
 or [ZX7](https://spectrumcomputing.co.uk/entry/27996/ZX-Spectrum/ZX7)).
 
 Afterwards, you have the following choices to restore the original screen from
@@ -40,20 +41,22 @@ the compressed data:
   so you can hide the screen using the same INK/PAPER, decompress bitmaps only,
   decode it, then finally decompress attributes).
 
-* Decompress and decode at the same time, directly to the screen, using the
-  "Smart" integrated **RCS+ZX0** or **RCS+ZX7** decompressor. When decompressing
-  anything to the screen area, the "Smart" version assumes the compressed data was
-  also **RCS** encoded, so it automatically decodes it. When decompressing to anywhere
-  else, it assumes the compressed data is not **RCS** encoded, thus it works exactly
-  like regular **ZX0** or **ZX7** decompressors. However this option only works for
-  **ZX0** or **ZX7** compression (obviously), and the "Smart" version is about 3 times
-  slower than other **ZX0** or **ZX7** decompressors.
+* Decompress and decode at the same time, directly to the screen, using a "Smart" 
+  integrated decompressor (either **RCS+ZX0**, **RCS+ZX1**, or **RCS+ZX7**). When
+  decompressing anything to the screen area, the "Smart" version assumes the
+  compressed data was also **RCS** encoded, so it automatically decodes it. When
+  decompressing to anywhere else, it assumes the compressed data is not **RCS**
+  encoded, thus it works exactly like regular **ZX0**, **ZX1** or **ZX7**
+  decompressors. However this option only works for currently supported compressors
+  (**ZX0**, **ZX1**, and **ZX7**), and the "Smart" version is about 3 times slower
+  than standard **ZX0**, **ZX1**, or **ZX7** decompressors.
 
-* Decompress and decode at the same time, directly to the screen, using the
-  "Agile" integrated **RCS+ZX0** or **RCS+ZX7** decompressor. It works exactly the
-  same as "Smart" version, except it runs much faster (about the same speed as regular
-  "Turbo" version) when decompressing data outside the screen (without **RCS**). However
-  the "Agile" decompressor version is larger than "Smart".
+* Decompress and decode at the same time, directly to the screen, using the "Agile"
+  integrated decompressor (either **RCS+ZX0**, **RCS+ZX1**, or **RCS+ZX7**). It
+  works exactly the same as "Smart" version, except it runs much faster (about the
+  same speed as regular "Turbo" decompressor) when decompressing data outside the
+  screen (without **RCS**). However the "Agile" decompressor version is larger than
+  "Smart".
 
 
 ## Partial Screens
@@ -79,7 +82,8 @@ copy both.
   another binary file with the corresponding attributes (256 or 512 bytes) and
   compress it separately. Later, decompress each block separately to the screen
   (either using a regular decompressor and running the "on-screen **RCS** decoder"
-  afterwards, or using an integrated **RCS+ZX0** or **RCS+ZX7** decompressor).
+  afterwards, or using an integrated **RCS+ZX0**, **RCS+ZX1**, or **RCS+ZX7** 
+  decompressor).
 
 * Temporary area: Copy the bitmap and attribute contents from 1/3 or 2/3 screen
   to a temporary area (2048+256=2304 or 4096+512=4608 bytes), save it as binary
@@ -128,5 +132,5 @@ documentation that you have used **RCS**.
 
 **RCS** was created by **Einar Saukas**.
 
-Many thanks to **joefish** for suggesting to implement the "on screen" decoder, and
-  to **Antonio Villena** for additional suggestions to improve it.
+Many thanks to **joefish** for suggesting to implement the "on screen" decoder, 
+  and to **Antonio Villena** for additional suggestions to improve it.
