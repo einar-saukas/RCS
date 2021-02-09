@@ -30,10 +30,12 @@ or [ZX7](https://spectrumcomputing.co.uk/entry/27996/ZX-Spectrum/ZX7)).
 Afterwards, you have the following choices to restore the original screen from
 the compressed data:
 
-* First decompress it to a temporary buffer, then use "buffered **RCS** decoder" to
-  decode it to the screen. However this option requires a 6912 bytes buffer to
-  decompress a full screen, therefore this is a good choice only if your program
-  is already using a large buffer area (such as shadow screen) anyway.
+* First decompress it to a temporary buffer, then use a "buffered **RCS** decoder"
+  to decode it to the screen. In this case, there are 2 variants of this routine
+  that you can choose: "compact" (that's very small) or "rapid" (about 2.5 times
+  faster). However this option requires a 6912 bytes buffer to decompress a full 
+  screen, therefore this is a good choice only if your program is already using a 
+  large buffer area (such as shadow screen) anyway.
 
 * First decompress it directly to the screen, then use "on-screen **RCS** decoder"
   to decode it. However this option will display some "garbage" on screen for
@@ -132,5 +134,6 @@ documentation that you have used **RCS**.
 
 **RCS** was created by **Einar Saukas**.
 
-Many thanks to **joefish** for suggesting to implement the "on screen" decoder, 
-  and to **Antonio Villena** for additional suggestions to improve it.
+Many thanks to **joefish** for suggesting to implement the "on screen" decoder,
+  **Antonio Villena** for additional suggestions to improve it, and 
+  **Arkannoyed** for providing the compact version of the "buffered" RCS decoder.
