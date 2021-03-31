@@ -135,5 +135,6 @@ documentation that you have used **RCS**.
 **RCS** was created by **Einar Saukas**.
 
 Many thanks to **joefish** for suggesting to implement the "on screen" decoder,
-  **Antonio Villena** for additional suggestions to improve it, and 
-  **Arkannoyed** for providing the compact version of the "buffered" RCS decoder.
+  **Antonio Villena** for additional suggestions to improve it, and
+  **James 'Arkannoyed' Slasor** for providing the compact version of
+  the "buffered" RCS decoder.

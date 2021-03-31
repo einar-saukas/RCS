@@ -8,12 +8,13 @@
 
 drcs_buffered_rapid:
         ld      de, $4800
+        ld      c, 8
 drcsr_next_row_or_col:
         ld      a, d
-        sub     8
+        sub     c
         ld      d, a
 drcsr_next_sector:
-        ld      b, 8
+        ld      b, c
 drcsr_next_line:
         ld      a, (hl)
         inc     hl
