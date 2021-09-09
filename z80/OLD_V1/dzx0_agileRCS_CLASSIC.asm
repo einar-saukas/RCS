@@ -1,5 +1,5 @@
 ; -----------------------------------------------------------------------------
-; "Agile" integrated RCS+ZX0 decoder by Einar Saukas (187 bytes)
+; "Agile" integrated RCS+ZX0 decoder by Einar Saukas (189 bytes)
 ; -----------------------------------------------------------------------------
 ; Parameters:
 ;   HL: source address (compressed data)
@@ -13,17 +13,20 @@ dzx0_agilercs:
         ld      a, $80
         jr      dzx0a_literals
 dzx0a_new_offset:
-        ld      c, $fe                  ; prepare negative offset
+        inc     c                       ; obtain offset MSB
         add     a, a
         jp      nz, dzx0a_new_offset_skip
         ld      a, (hl)                 ; load another group of 8 bits
         inc     hl
         rla
 dzx0a_new_offset_skip:
-        call    nc, dzx0a_elias         ; obtain offset MSB
-        inc     c
+        call    nc, dzx0a_elias
+        ex      af, af'                 ; adjust for negative offset
+        xor     a
+        sub     c
         ret     z                       ; check end marker
-        ld      b, c
+        ld      b, a
+        ex      af, af'
         ld      c, (hl)                 ; obtain offset LSB
         inc     hl
         rr      b                       ; last offset bit becomes first length bit
