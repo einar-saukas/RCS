@@ -4,6 +4,9 @@
 ; No parameters needed.
 ; -----------------------------------------------------------------------------
 
+; Screen address (multiple of 8192!)
+SCREEN_ADDR     EQU   16384
+
 ; Decode starting at upper sector (0), middle sector (1), or lower sector (2)
 FIRST_SECTOR    EQU   0
 
@@ -13,7 +16,7 @@ LAST_SECTOR     EQU   2
 drcs_onscreen:
         ld      b, $02
 drcs_next:
-        ld      de, 256*(FIRST_SECTOR*8+64)+1
+        ld      de, 2048*FIRST_SECTOR+SCREEN_ADDR+1
 drcs_loop:
         ld      h, d
         ld      a, e
@@ -65,7 +68,7 @@ drcs_skip:
         inc     b         ; djnz adjust
         inc     de        ; next address
         ld      a, d
-        cp      LAST_SECTOR*8+72
+        cp      8*(LAST_SECTOR+1)+(SCREEN_ADDR/256)
         jr      nz, drcs_loop ; process next address
         djnz    drcs_next ; process next pass
         ret
